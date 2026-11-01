@@ -111,6 +111,53 @@ export default function Hoy() {
         </div>
       </div>
 
+      {abiertasHoy.length > 0 && (
+        <section aria-labelledby="ahora-titulo">
+          <h2 id="ahora-titulo" className="rail-titulo">En el sillón ahora</h2>
+          <ul className="sillones">
+            {e.equipo
+              .filter((b) => abiertasHoy.some((s) => s.id === b.sucursal))
+              .map((b) => {
+                const deFranco = b.franco === new Date(hoy + 'T12:00').getDay()
+                const delBarbero = d.deHoy.filter((t) => t.barberoId === b.id).sort((x, y) => x.inicio - y.inicio)
+                const actual = delBarbero.find((t) => t.inicio <= ahora && t.inicio + t.duracion > ahora && t.estado !== 'ausente')
+                const proximo = delBarbero.find((t) => t.inicio > ahora && t.estado === 'reservado')
+                const avance = actual ? (ahora - actual.inicio) / actual.duracion : 0
+                const abiertaAhora = franjas(b.sucursal, hoy).some(([a, z]) => ahora >= aMin(a) && ahora < aMin(z))
+                return (
+                  <li key={b.id} className={`sillon ${actual ? 'sillon-ocupado' : ''}`} style={{ ['--tono' as string]: b.tono }}>
+                    <div className="sillon-cabeza">
+                      <Persona b={b} />
+                      <span>
+                        <strong>{b.nombre}</strong>
+                        <small>{negocio.sucursales.find((s) => s.id === b.sucursal)!.nombre}</small>
+                      </span>
+                      <span className={`sillon-estado ${actual ? 'ocupado' : ''}`}>
+                        {deFranco ? 'De franco' : !abiertaAhora ? 'Cerrado' : actual ? 'Atendiendo' : 'Libre'}
+                      </span>
+                    </div>
+                    {actual ? (
+                      <button className="sillon-turno" onClick={() => verTurno(actual.id)}>
+                        <span>
+                          {ix.cliente[actual.clienteId].nombre} · {ix.servicio[actual.servicioId].nombre}
+                        </span>
+                        <span className="sillon-progreso" aria-hidden="true">
+                          <span style={{ width: `${Math.round(avance * 100)}%` }} />
+                        </span>
+                        <small>Termina {hora(actual.inicio + actual.duracion)} · faltan {actual.inicio + actual.duracion - ahora} min</small>
+                      </button>
+                    ) : (
+                      <p className="sillon-libre">
+                        {deFranco ? 'Vuelve mañana.' : proximo ? <>Próximo: <strong>{hora(proximo.inicio)}</strong> con {ix.cliente[proximo.clienteId].nombre.split(' ')[0]}</> : 'Sin más turnos hoy.'}
+                      </p>
+                    )}
+                  </li>
+                )
+              })}
+          </ul>
+        </section>
+      )}
+
       <div className="grilla-rail">
         <div className="columna">
           <section className="tarjeta">

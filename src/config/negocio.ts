@@ -38,6 +38,7 @@ export type Barbero = {
   desde: string
   /** Día de franco (0 = domingo), si tiene. */
   franco?: number
+  instagram?: string
 }
 
 export type Producto = {
@@ -62,7 +63,30 @@ export const negocio = {
   dueño: 'Ayrton',
   bajada: 'Tu espacio favorito para cortarte el pelo. Niños y mayores.',
   academia: 'Ayrton Academy: curso presencial de barbería 2026',
-  calificacion: { promedio: 5.0, reseñas: 38 },
+  // Ficha de Google de Centro Nuevo, noviembre 2026
+  calificacion: { promedio: 4.8, reseñas: 246 },
+  google: 'https://www.google.com/maps/search/?api=1&query=Ayrton+Estilistas&query_place_id=ChIJUTB-aKZnLZQR9Um6g6ZeetE',
+
+  // Extractos de reseñas reales de Google (5 estrellas). En la versión final se leen solas de Google.
+  reseñas: [
+    { nombre: 'Mayco A.', cuando: 'hace 4 meses', texto: 'Excelente el servicio de los chicos, Blas y Lucas genios. Súper profesionales y correctos.' },
+    { nombre: 'Andrés F.', cuando: 'hace 5 meses', texto: 'Todos los chicos le ponen toda la buena onda, desde que abrieron fiel acá. Hasta con cafecito te reciben.' },
+    { nombre: 'Jonathan', cuando: 'hace 3 meses', texto: 'Siempre voy porque interpretan bien el corte que querés, capo los pibes.' },
+    { nombre: 'Agustina M.', cuando: 'hace 6 meses', texto: 'Excelente ambiente, muy buena onda los chicos, muy buena atención y servicio.' },
+    { nombre: 'Cliente en Google', cuando: 'reseña destacada', texto: 'Muy buena atención y una excelente calidad en los cortes… te dejan flama.' },
+    { nombre: 'Cliente en Google', cuando: 'reseña destacada', texto: 'Con mi hijo nos atendieron espectacular.' },
+    { nombre: 'Cliente en Google', cuando: 'reseña destacada', texto: 'Muy buen lugar, te tratan súper bien.' },
+  ],
+
+  // Fotos de su Instagram y de los barberos (posts en colaboración con @ayrton.estilistas)
+  fotos: {
+    salon: { src: 'img/salon.jpg', ancho: 720, alto: 1280, alt: 'Un barbero corta a un cliente bajo el techo de hexágonos de luz', autor: 'fecasstyle' },
+    neon: { src: 'img/neon.jpg', ancho: 1215, alto: 2160, alt: 'El logo de Ayrton en neón violeta sobre la pared de mármol de Centro Viejo', autor: 'fecasstyle' },
+    mechas: { src: 'img/mechas.jpg', ancho: 720, alto: 1280, alt: 'Mechas en proceso con gorro de papel', autor: 'ltbarberia_' },
+    mullet: { src: 'img/mullet.jpg', ancho: 720, alto: 1280, alt: 'Mullet con mechas iluminadas, de perfil', autor: 'ltbarberia_' },
+    diseno: { src: 'img/diseno.jpg', ancho: 1320, alto: 2347, alt: 'Fade con diseño a navaja en la nuca', autor: 'ayrton.estilistas' },
+    cafe: { src: 'img/cafe.jpg', ancho: 640, alto: 1136, alt: 'Un cliente toma café en el nuevo sector de cafetería', autor: 'ayrton.estilistas' },
+  },
 
   sucursales: [
     {
@@ -94,13 +118,13 @@ export const negocio = {
     { id: 'mechas', nombre: 'Mechas platinadas', descripcion: 'Incluye corte. Decoloración y matiz.', grupo: 'Color', precio: 90000, duracion: 300, online: true },
   ] as Servicio[],
 
-  // Equipo según su página de turnos; tonos y comisiones son de muestra.
+  // Equipo según su página de turnos e Instagram; tonos y comisiones son de muestra.
   equipo: [
-    { id: 'agus', nombre: 'Agus', sucursal: 'nuevo', tono: 28, comision: 50, desde: '2022', franco: 1 },
-    { id: 'benja', nombre: 'Benja', sucursal: 'nuevo', tono: 150, comision: 45, desde: '2024', franco: 2 },
-    { id: 'blas', nombre: 'Blas', sucursal: 'nuevo', tono: 210, comision: 50, desde: '2021', franco: 3 },
-    { id: 'lucas', nombre: 'Lucas', sucursal: 'nuevo', tono: 300, comision: 45, desde: '2023', franco: 4 },
-    { id: 'fede', nombre: 'Fede', sucursal: 'viejo', tono: 90, comision: 50, desde: '2022' },
+    { id: 'agus', nombre: 'Agus', sucursal: 'nuevo', tono: 28, comision: 50, desde: '2022', franco: 1, instagram: 'agustin.jbucc' },
+    { id: 'benja', nombre: 'Benja', sucursal: 'nuevo', tono: 160, comision: 45, desde: '2024', franco: 2 },
+    { id: 'blas', nombre: 'Blas', sucursal: 'nuevo', tono: 205, comision: 50, desde: '2021', franco: 3 },
+    { id: 'lucas', nombre: 'Lucas', sucursal: 'nuevo', tono: 320, comision: 45, desde: '2023', franco: 4, instagram: 'ltbarberia_' },
+    { id: 'fede', nombre: 'Fede', sucursal: 'viejo', tono: 95, comision: 50, desde: '2022', instagram: 'fecasstyle' },
   ] as Barbero[],
 
   productos: [

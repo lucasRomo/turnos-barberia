@@ -4,7 +4,7 @@ import { negocio, type SucursalId } from '../config/negocio'
 import { duracion, fechaCorta, fechaLarga, fechaRelativa, hora, hoyClave, pesos, sumarDias, capital } from '../lib/formato'
 import { abierto, crearCliente, crearTurno, huecos, useDemo } from '../lib/store'
 import type { Turno } from '../lib/tipos'
-import { Franja } from '../lib/ui'
+import { Franja, Logo } from '../lib/ui'
 import { BarraDemo } from './comun'
 
 function Paso({
@@ -113,6 +113,9 @@ export default function Reservar() {
       <div className="reservar">
         <BarraDemo a={`/admin/agenda?dia=${hecho.dia}&suc=${hecho.sucursal}`} texto="Ver el turno en la agenda del negocio" />
         <div className="reservar-marco">
+        <figure className="reservar-foto">
+          <img src={negocio.fotos.neon.src} alt={negocio.fotos.neon.alt} width={negocio.fotos.neon.ancho} height={negocio.fotos.neon.alto} />
+        </figure>
           <article className="ticket ticket-final">
             <Franja alto={40} />
             <div className="ticket-cuerpo">
@@ -142,12 +145,17 @@ export default function Reservar() {
     <div className="reservar">
       <BarraDemo />
       <div className="reservar-marco">
+        <figure className="reservar-foto">
+          <img src={negocio.fotos.neon.src} alt={negocio.fotos.neon.alt} width={negocio.fotos.neon.ancho} height={negocio.fotos.neon.alto} />
+        </figure>
         <article className="ticket">
           <Franja alto={40} />
           <div className="ticket-cuerpo reservar-cabeza">
-            <Link to="/" className="marca marca-chica">
-              <span className="marca-nombre">{negocio.nombreCorto}</span>
-              <span className="marca-sub">Estilistas</span>
+            <Link to="/" className="marca">
+              <Logo tamaño={30} />
+              <span>
+                {negocio.nombreCorto} <em>Estilistas</em>
+              </span>
             </Link>
             <h1>Sacá tu turno</h1>
             <p className="bajada">Cinco pasos y listo. No hace falta registrarse ni pagar por adelantado.</p>

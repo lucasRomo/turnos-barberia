@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { BarChart3, CalendarDays, Clock, Globe, Menu, RotateCcw, Scissors, Settings, Users, Wallet, UserRound } from 'lucide-react'
+import { BarChart3, CalendarDays, Clock, Globe, Menu, Plus, RotateCcw, Scissors, Search, Settings, Users, Wallet, UserRound } from 'lucide-react'
 import { negocio } from '../config/negocio'
 import { aMin, ahoraMin, hoyClave } from '../lib/formato'
 import { franjas, reiniciarDemo, useDemo } from '../lib/store'
 import { PRODUCTO } from '../sitio/comun'
+import { Logo } from '../lib/ui'
 import { DetalleTurno, NuevoTurno, type Alcance, type Contexto, type NuevoTurnoDatos } from './comun'
 
 const menu = [
@@ -61,10 +62,10 @@ export default function Layout() {
     <div className="admin">
       <aside className={`lateral ${menuAbierto ? 'lateral-abierta' : ''}`}>
         <div className="producto">
-          <span className="producto-marca" aria-hidden="true">A</span>
+          <Logo tamaño={34} />
           <span>
             <strong>{negocio.nombre}</strong>
-            <small>{negocio.ciudad}</small>
+            <small>Panel · {negocio.ciudad}</small>
           </span>
         </div>
         <label className="alcance">
@@ -88,7 +89,7 @@ export default function Layout() {
             <RotateCcw size={16} strokeWidth={1.8} aria-hidden="true" /> Reiniciar demo
           </button>
           <div className="usuario">
-            <span className="persona" style={{ ['--tono' as string]: 0 }}>AY</span>
+            <span className="persona persona-dueño" aria-hidden="true">AY</span>
             <span>
               <strong>{negocio.dueño}</strong>
               <small>Dueño</small>
@@ -102,6 +103,7 @@ export default function Layout() {
           <Menu size={20} />
         </button>
         <div className="buscador">
+          <Search size={16} className="buscador-icono" aria-hidden="true" />
           <input
             type="search"
             placeholder="Buscar cliente por nombre"
@@ -121,7 +123,7 @@ export default function Layout() {
             </ul>
           )}
         </div>
-        <button className="boton boton-primario boton-chico" onClick={() => ctx.nuevoTurno()}>Nuevo turno</button>
+        <button className="boton boton-primario" onClick={() => ctx.nuevoTurno()}><Plus size={16} strokeWidth={2.4} aria-hidden="true" /> Nuevo turno</button>
       </header>
       <main className="hoja-admin">
         <Outlet context={ctx} />

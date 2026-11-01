@@ -4,8 +4,13 @@ Demo visual de un sistema de turnos para barberías y peluquerías, armada para 
 **Ayrton Estilistas** (Villa Carlos Paz). Es todo frontend: no hay servidor ni base de datos.
 Los datos de prueba se generan solos y se guardan en el navegador de quien la abre.
 
-- **Web pública** (`#/`): la página de la barbería con el próximo turno libre en vivo y la reserva en 5 pasos.
-- **Panel del negocio** (`#/admin`): agenda por barbero, clientes, caja, reportes, servicios y precios, equipo y comisiones.
+- **Web pública** (`#/`): la página de la barbería con el próximo turno libre en vivo, trabajos de su Instagram,
+  precios, carrusel de reseñas de Google, si cada sucursal está abierta ahora y la reserva en 5 pasos.
+- **Panel del negocio** (`#/admin`): quién está en cada sillón ahora, agenda tipo calendario (vista día por barbero
+  y vista semana de ocupación), clientes, caja, reportes, servicios y precios, equipo y comisiones.
+
+El diseño toma la identidad del local: negro, el mármol de las paredes, el techo de hexágonos de LED y el cartel
+de neón violeta con el logo.
 
 Lo que se reserva en la web aparece en la agenda del panel. El botón **Reiniciar demo** del panel vuelve todo a cero.
 
@@ -32,17 +37,20 @@ Links para mandar:
 
 Todo lo del negocio está en [`src/config/negocio.ts`](src/config/negocio.ts): nombre, sucursales,
 horarios, servicios, precios, equipo y productos. Se cambia ese archivo y listo.
-Los textos de la portada y la carta del dueño están en [`src/sitio/Sitio.tsx`](src/sitio/Sitio.tsx).
+Ahí también están las reseñas y la lista de fotos. Los textos de la web están en [`src/sitio/Sitio.tsx`](src/sitio/Sitio.tsx).
 
 ## Antes de mostrarla: qué es real y qué es de muestra
 
-**Real** (tomado de su Instagram y de su página de turnos actual): nombre, las dos sucursales y direcciones,
-horarios, teléfonos, el equipo (Agus, Benja, Blas, Lucas, Fede), los precios de Corte, Corte y barba, Color global
-y Mechas platinadas, la calificación 5.0 en 38 reseñas y Ayrton Academy.
+**Real** (tomado de su Instagram, su ficha de Google y su página de turnos actual): nombre, logo, las dos
+sucursales y direcciones, horarios, teléfonos, el equipo (Agus, Benja, Blas, Lucas, Fede), los precios de Corte,
+Corte y barba, Color global y Mechas platinadas, la calificación de Google (4,8 en 246 reseñas), los extractos de
+reseñas, el sector de cafetería y Ayrton Academy.
 
 **De muestra** (confirmar o cambiar): Corte niños y Barba sola con sus precios, los francos y comisiones del equipo,
-los productos y su stock, la carta firmada por Ayrton y todos los clientes y turnos.
+los productos y su stock, los textos de café y academia, y todos los clientes y turnos.
 
-**Fotos**: son fotos libres de Wikimedia Commons (barberías antiguas, el lago San Roque, el reloj cucú), con
-sus créditos en el pie de la página. No son del local. Lo ideal es reemplazarlas por fotos de Ayrton en
-`public/img/` con los mismos nombres de archivo.
+**Fotos**: son de su Instagram (@ayrton.estilistas) y de los barberos que publican en colaboración
+(@fecasstyle, @ltbarberia_), con el usuario de cada uno en la página. Son miniaturas de reels: para la versión
+final conviene pedirles las fotos originales en buena resolución y ponerlas en `public/img/` con los mismos nombres.
+
+**Reseñas**: son extractos cortos de reseñas reales de Google. En la versión con servidor se leen solas de Google.
