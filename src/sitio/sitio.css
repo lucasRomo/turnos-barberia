@@ -1,0 +1,1040 @@
+/* Web pública: el ticket de turno sobre el negro de la barbería. */
+.sitio,
+.reservar {
+  --ground: #151413;
+  --paper: #ecebe7;
+  --paper-2: #dfddd7;
+  --ink: #151413;
+  --muted: #55514a;
+  --accent: #b3211d;
+  --accent-ink: #ffffff;
+  --margen: 12px;
+  --step-small: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+  --step-display: clamp(2.75rem, 1.5rem + 4.2vw, 5.5rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  background: var(--ground);
+  color: var(--ink);
+  font-family: 'General Sans', system-ui, sans-serif;
+  font-size: var(--step-body);
+  line-height: 1.45;
+  min-height: 100vh;
+}
+
+.sitio h1,
+.sitio h2,
+.sitio h3,
+.reservar h1,
+.reservar h2 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  margin: 0;
+}
+
+.sitio a,
+.reservar a {
+  color: inherit;
+}
+
+.sitio img {
+  filter: grayscale(1) contrast(1.06);
+}
+
+/* ——— Barra de demo ——— */
+.barra-demo {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: var(--ground);
+  color: #d9d5cc;
+  font-size: var(--step-small);
+}
+.barra-demo p {
+  margin: 0;
+}
+.barra-demo a {
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  text-underline-offset: 3px;
+}
+
+/* ——— Botones ——— */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 0;
+  font: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms var(--ease), background-color 160ms var(--ease);
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-acento {
+  background: var(--accent);
+  color: var(--accent-ink) !important;
+}
+.btn-acento:hover {
+  background: #951a17;
+}
+.btn-ancho {
+  width: 100%;
+}
+.enlace {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+}
+.enlace:hover {
+  text-decoration-thickness: 2px;
+}
+:where(.sitio, .reservar) :focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ——— La franja del poste ——— */
+.franja {
+  overflow: hidden;
+  flex: none;
+}
+.franja svg {
+  display: block;
+}
+.franja-giro {
+  animation: giro 2.8s linear infinite;
+}
+@keyframes giro {
+  to {
+    transform: translateX(72px);
+  }
+}
+
+/* ——— El ticket ——— */
+.ticket {
+  background: var(--paper);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* muescas laterales de ticket a la altura del talón */
+  --muesca: 14px;
+}
+.ticket-cuerpo {
+  padding: clamp(24px, 3.4vh, 48px) clamp(24px, 4vw, 64px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.marca {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 0 clamp(20px, 3vh, 36px);
+  text-decoration: none;
+}
+.marca-nombre {
+  font-size: var(--step-display);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+}
+.marca-sub {
+  font-size: var(--step-small);
+  font-weight: 500;
+  margin-top: 10px;
+}
+.marca-chica .marca-nombre {
+  font-size: var(--step-head);
+}
+.ticket h1 {
+  font-size: var(--step-head);
+  max-width: 12ch;
+}
+.bajada {
+  max-width: 38ch;
+  margin: 20px auto 0;
+}
+
+/* Talón con perforación */
+.ticket-talon {
+  position: relative;
+  margin-top: auto;
+  padding: 28px clamp(24px, 4vw, 64px) 24px;
+  background: var(--paper-2);
+  text-align: center;
+}
+.ticket-talon::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: -3px;
+  height: 6px;
+  background-image: radial-gradient(circle, var(--ground) 2.5px, transparent 3px);
+  background-size: 14px 6px;
+}
+.ticket-talon::after {
+  content: '';
+  position: absolute;
+  inset: -14px -1px auto -1px;
+  height: 28px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 0 50%, var(--ground) 13px, transparent 14px),
+    radial-gradient(circle at 100% 50%, var(--ground) 13px, transparent 14px);
+}
+.talon-cabeza {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.talon-titulo {
+  font-size: var(--step-small) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.4 !important;
+}
+.pestanas {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--paper);
+  padding: 4px;
+}
+.pestanas button {
+  font: inherit;
+  font-size: var(--step-small);
+  font-weight: 500;
+  border: 0;
+  padding: 8px 14px;
+  min-height: 40px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background-color 160ms var(--ease), color 160ms var(--ease);
+}
+.pestanas button:hover {
+  color: var(--ink);
+}
+.pestanas button.activa {
+  background: var(--ink);
+  color: var(--paper);
+}
+.talon-hora {
+  font-size: var(--step-head);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 16px 0 8px;
+  font-variant-numeric: tabular-nums;
+}
+.talon-hora span {
+  font-weight: 500;
+}
+.talon-detalle {
+  margin: 0 auto;
+  max-width: 40ch;
+  color: var(--muted);
+}
+.talon-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+}
+.ticket-pie {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  padding: 16px 24px 20px;
+  background: var(--paper-2);
+  font-size: var(--step-small);
+}
+
+/* ——— Portada ——— */
+.portada {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--margen);
+  padding: var(--margen);
+  min-height: calc(100svh - 41px);
+}
+.portada-foto {
+  position: sticky;
+  top: var(--margen);
+  height: calc(100svh - 2 * var(--margen));
+  overflow: hidden;
+  order: 2;
+  background: #2b2926;
+}
+.portada-foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.6s ease, transform 8s linear;
+  transform: scale(1.06);
+}
+.portada-foto img.activa {
+  opacity: 1;
+  transform: scale(1);
+}
+.portada-ticket {
+  min-height: calc(100svh - 2 * var(--margen) - 41px);
+}
+.portada .ticket-cuerpo {
+  flex: 1;
+  justify-content: center;
+}
+
+/* ——— Servicios: la hoja impresa ——— */
+.servicios {
+  position: relative;
+  padding: clamp(80px, 14vw, 200px) var(--margen);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.servicios-fondo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+  animation: deriva 24s ease-in-out infinite alternate;
+}
+@keyframes deriva {
+  to {
+    transform: scale(1.08) translateX(-2%);
+  }
+}
+.hoja {
+  position: relative;
+  width: min(680px, 100%);
+  background: var(--paper);
+  padding: 72px clamp(24px, 6vw, 64px);
+  text-align: center;
+  -webkit-mask:
+    radial-gradient(circle at 50% 0, transparent 9px, #000 9.5px) top / 26px 51% repeat-x,
+    radial-gradient(circle at 50% 100%, transparent 9px, #000 9.5px) bottom / 26px 51% repeat-x;
+  mask:
+    radial-gradient(circle at 50% 0, transparent 9px, #000 9.5px) top / 26px 51% repeat-x,
+    radial-gradient(circle at 50% 100%, transparent 9px, #000 9.5px) bottom / 26px 51% repeat-x;
+}
+.hoja h2 {
+  font-size: var(--step-head);
+}
+.hoja-nota {
+  font-size: var(--step-small);
+  color: var(--muted);
+  margin: 16px auto 0;
+  max-width: 44ch;
+}
+.hoja-grupo {
+  margin-top: 56px;
+}
+.hoja-grupo h3 {
+  font-size: var(--step-lead);
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+.hoja-grupo ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 460px;
+  display: grid;
+  gap: 6px;
+}
+.hoja-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  text-align: left;
+  text-decoration: none;
+  padding: 10px 12px;
+  margin: 0 -12px;
+  transition: background-color 160ms var(--ease);
+}
+.hoja-item:hover {
+  background: var(--paper-2);
+}
+.hoja-nombre {
+  font-weight: 500;
+}
+.hoja-precio {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+.hoja-desc {
+  grid-column: 1 / -1;
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+.hoja-horario {
+  margin-top: 56px;
+  font-size: var(--step-small);
+}
+.hoja-horario p {
+  margin: 4px 0;
+}
+
+/* ——— Carta del fundador ——— */
+.carta-seccion {
+  padding: clamp(80px, 12vw, 180px) var(--margen);
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 640px) 1fr;
+  gap: var(--margen);
+}
+.carta {
+  grid-column: 2;
+  background: var(--paper);
+  padding: clamp(28px, 5vw, 60px) clamp(24px, 5vw, 60px) 0;
+  -webkit-mask: radial-gradient(circle at 50% 100%, transparent 6px, #000 6.5px) bottom / 18px 100% repeat-x;
+  mask: radial-gradient(circle at 50% 100%, transparent 6px, #000 6.5px) bottom / 18px 100% repeat-x;
+  padding-bottom: 8px;
+}
+.carta-retrato {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 22px;
+}
+.carta h2 {
+  font-size: var(--step-lead);
+  margin: 28px 0 8px;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+.carta p {
+  line-height: 1.55;
+  margin: 18px 0 0;
+}
+.carta mark {
+  background: #f1c9c3;
+  color: inherit;
+  padding: 0 3px;
+}
+.carta-firma {
+  font-size: var(--step-lead);
+  font-style: italic;
+  font-weight: 500;
+  margin-top: 36px !important;
+}
+.carta-rol {
+  margin-top: 2px !important;
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+.carta-tira {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 40px calc(-1 * clamp(24px, 5vw, 60px)) 0;
+  padding: 28px clamp(24px, 5vw, 60px) 32px;
+  background: var(--paper-2);
+  position: relative;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 160ms var(--ease);
+}
+.carta-tira:hover {
+  background: #d3d1ca;
+}
+.carta-tira::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  top: -3px;
+  height: 6px;
+  background-image: radial-gradient(circle, var(--ground) 2.5px, transparent 3px);
+  background-size: 14px 6px;
+}
+
+/* ——— Sucursales ——— */
+.sucursales {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 76svh;
+  background: var(--paper);
+  margin: 0 var(--margen);
+}
+.sucursales-foto {
+  display: grid;
+  place-items: center;
+  padding: 40px;
+  background: var(--paper-2);
+}
+.sucursales-foto img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.sucursales-texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: clamp(32px, 5vw, 64px) clamp(24px, 5vw, 64px) 0;
+}
+.sucursales h2 {
+  font-size: var(--step-head);
+  max-width: 12ch;
+  margin-bottom: 28px;
+}
+.pestanas-grandes {
+  background: var(--paper-2);
+}
+.pestanas-grandes button {
+  font-size: var(--step-body);
+  padding: 10px 18px;
+}
+.sucursal-direccion {
+  font-size: var(--step-lead);
+  letter-spacing: -0.01em;
+  margin-bottom: 16px !important;
+}
+.sucursales-texto p {
+  max-width: 40ch;
+  margin: 0;
+}
+.horario {
+  margin: 24px 0 0;
+  display: grid;
+  gap: 8px;
+  max-width: 420px;
+}
+.horario div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.horario dt {
+  font-weight: 500;
+}
+.horario dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.sucursales-acciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0 calc(-1 * clamp(24px, 5vw, 64px));
+}
+.celda {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  padding: 0 clamp(24px, 3vw, 40px);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 160ms var(--ease);
+}
+.celda-tinta {
+  background: var(--ink);
+  color: var(--paper) !important;
+}
+.celda-tinta:hover {
+  background: var(--accent);
+}
+.celda-tono {
+  background: var(--paper-2);
+}
+.celda-tono:hover {
+  background: #d3d1ca;
+}
+
+/* ——— Contacto ——— */
+.contacto {
+  position: relative;
+  min-height: 100svh;
+  margin-top: clamp(80px, 12vw, 180px);
+}
+.contacto-foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.contacto-tarjeta {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  width: 400px;
+  background: var(--paper);
+  padding: 32px 32px 0;
+  display: flex;
+  flex-direction: column;
+}
+.contacto-tarjeta h2 {
+  font-size: var(--step-head);
+  margin-bottom: 20px;
+}
+.contacto-linea {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 14px;
+}
+.contacto-linea span {
+  font-weight: 500;
+}
+.contacto-nota {
+  font-size: var(--step-small);
+  color: var(--muted);
+  margin: 8px 0 28px;
+}
+.contacto-tarjeta .btn {
+  margin: 0 -32px;
+  width: calc(100% + 64px);
+}
+
+/* ——— Pie: el dorso del ticket ——— */
+.pie {
+  padding: clamp(80px, 12vw, 180px) var(--margen) var(--margen);
+}
+.pie-postal {
+  background: var(--paper);
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px clamp(24px, 6vw, 96px);
+  padding: clamp(48px, 7vw, 96px) clamp(24px, 6vw, 80px) 28px;
+  -webkit-mask: radial-gradient(circle at 50% 0, transparent 22px, #000 22.5px) top / 64px 100% repeat-x;
+  mask: radial-gradient(circle at 50% 0, transparent 22px, #000 22.5px) top / 64px 100% repeat-x;
+}
+.pie-mensaje h2 {
+  font-size: var(--step-head);
+  max-width: 10ch;
+}
+.pie-mensaje p {
+  max-width: 36ch;
+  margin-top: 20px;
+}
+.pie-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  font-size: var(--step-lead);
+  position: relative;
+  padding-top: 8px;
+}
+.pie-datos a {
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.pie-datos a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.pie-sello {
+  width: 88px;
+  height: 117px;
+  object-fit: cover;
+  border: 6px solid var(--paper-2);
+  margin-bottom: 12px;
+}
+.pie-imprenta,
+.creditos {
+  grid-column: 1 / -1;
+  font-size: var(--step-small);
+  margin: 0;
+  color: var(--muted);
+}
+.pie-imprenta {
+  text-align: center;
+  color: var(--ink);
+  padding-top: 24px;
+}
+.creditos a {
+  color: var(--ink);
+}
+
+/* ——— Reserva ——— */
+.reservar-marco {
+  padding: var(--margen);
+  display: grid;
+  justify-items: center;
+}
+.reservar .ticket {
+  width: min(760px, 100%);
+}
+.reservar-cabeza {
+  padding-bottom: 32px;
+}
+.reservar-cabeza .marca {
+  margin-bottom: 28px;
+}
+.paso {
+  padding: 24px clamp(20px, 5vw, 56px);
+  border-top: 2px solid var(--paper-2);
+}
+.paso-cabeza {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.paso h2 {
+  font-size: var(--step-lead);
+  letter-spacing: -0.01em;
+}
+.paso:not(.paso-abierto) h2 {
+  color: var(--muted);
+  font-weight: 500;
+}
+.paso-resumen {
+  margin: 0;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-weight: 500;
+}
+.paso-cuerpo {
+  margin-top: 20px;
+  animation: entra 360ms var(--ease) both;
+}
+.opciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+}
+.opcion {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-content: start;
+  gap: 4px 12px;
+  text-align: left;
+  font: inherit;
+  padding: 16px;
+  min-height: 72px;
+  border: 0;
+  background: var(--paper-2);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 160ms var(--ease), transform 160ms var(--ease);
+}
+.opcion:hover {
+  background: #d3d1ca;
+}
+.opcion:active {
+  transform: scale(0.98);
+}
+.opcion-nombre {
+  font-weight: 500;
+}
+.opcion-precio {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.opcion-dato {
+  grid-column: 1 / -1;
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+.opciones-barberos .opcion {
+  grid-template-columns: auto 1fr;
+}
+.opciones-barberos .opcion .opcion-dato {
+  grid-column: 2;
+}
+.avatar {
+  grid-row: span 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  background: hsl(var(--tono) 45% 86%);
+  color: hsl(var(--tono) 45% 24%);
+}
+.dias {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scroll-snap-type: x mandatory;
+}
+.dia {
+  flex: none;
+  width: 76px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 4px;
+  font: inherit;
+  border: 0;
+  background: var(--paper-2);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 160ms var(--ease);
+}
+.dia span {
+  font-size: var(--step-small);
+  text-transform: capitalize;
+}
+.dia strong {
+  font-size: var(--step-lead);
+  line-height: 1.1;
+}
+.dia small {
+  font-size: 13px;
+  color: var(--muted);
+}
+.dia:hover:not(:disabled) {
+  background: #d3d1ca;
+}
+.dia.activa {
+  background: var(--ink);
+  color: var(--paper);
+}
+.dia.activa small {
+  color: #cfcac0;
+}
+.dia:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.horas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 6px;
+  margin-top: 16px;
+}
+.hora {
+  font: inherit;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  min-height: 48px;
+  border: 0;
+  background: var(--paper-2);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background-color 160ms var(--ease), color 160ms var(--ease);
+}
+.hora:hover {
+  background: var(--accent);
+  color: #fff;
+}
+.datos {
+  display: grid;
+  gap: 18px;
+}
+.datos label {
+  display: grid;
+  gap: 6px;
+  font-weight: 500;
+}
+.datos input {
+  font: inherit;
+  min-height: 52px;
+  padding: 0 14px;
+  border: 2px solid var(--paper-2);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 0;
+}
+.datos input:focus {
+  border-color: var(--ink);
+  outline: none;
+}
+.datos small {
+  font-weight: 400;
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+.datos-resumen {
+  margin: 0;
+  padding: 16px;
+  background: var(--paper-2);
+}
+.ticket-final .ticket-cuerpo {
+  padding-bottom: 48px;
+}
+.ticket-numero {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  margin: 0 0 20px;
+}
+.ticket-final h1 {
+  max-width: 16ch;
+}
+.ticket-datos {
+  width: 100%;
+  max-width: 460px;
+  margin: 32px 0 0;
+  display: grid;
+  gap: 10px;
+  text-align: left;
+}
+.ticket-datos div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ticket-datos dt {
+  color: var(--muted);
+}
+.ticket-datos dd {
+  margin: 0;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* ——— Entradas ——— */
+@keyframes entra {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+.js .revela {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+}
+.js .visto .revela {
+  opacity: 1;
+  transform: none;
+}
+.js .visto .revela:nth-child(2) {
+  transition-delay: 80ms;
+}
+.js .visto .revela:nth-child(3) {
+  transition-delay: 160ms;
+}
+.js .portada-ticket > * {
+  animation: entra 800ms var(--ease) both;
+}
+.js .portada-ticket > :nth-child(2) {
+  animation-delay: 80ms;
+}
+.js .portada-ticket > :nth-child(3) {
+  animation-delay: 180ms;
+}
+.js .portada-ticket > :nth-child(4) {
+  animation-delay: 260ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .franja-giro,
+  .servicios-fondo,
+  .js .portada-ticket > *,
+  .paso-cuerpo {
+    animation: none;
+  }
+  .js .revela {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .portada-foto img {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ——— Teléfono ——— */
+@media (max-width: 860px) {
+  .barra-demo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .portada {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: 0;
+  }
+  .portada-foto {
+    position: relative;
+    top: 0;
+    order: 0;
+    height: 30svh;
+  }
+  .portada-ticket {
+    min-height: 0;
+    margin: -24px 12px 0;
+    z-index: 1;
+  }
+  .sucursales {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .sucursales-foto {
+    padding: 16px;
+  }
+  .contacto {
+    min-height: 0;
+    padding-top: 70svh;
+  }
+  .contacto-foto {
+    height: 70svh;
+  }
+  .contacto-tarjeta {
+    position: relative;
+    top: 0;
+    right: auto;
+    width: auto;
+    margin: -80px var(--margen) 0;
+  }
+  .pie-postal {
+    grid-template-columns: 1fr;
+    -webkit-mask-size: 52px 100%;
+    mask-size: 52px 100%;
+  }
+  .pie-datos {
+    font-size: 17px;
+  }
+  .pie-sello {
+    width: 64px;
+    height: 85px;
+  }
+}
+@media (max-width: 480px) {
+  .hoja {
+    padding: 56px 24px;
+  }
+  .sucursales-acciones {
+    grid-template-columns: 1fr;
+  }
+}
