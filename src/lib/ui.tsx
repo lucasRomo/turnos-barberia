@@ -1,50 +1,4 @@
-import { useEffect, useId, useRef, type ReactNode } from 'react'
-
-/** Marca la sección como vista al entrar en pantalla, para la animación de entrada. */
-export function useRevelar<T extends HTMLElement>() {
-  const ref = useRef<T>(null)
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    // Se mide con el scroll (no con IntersectionObserver) para que funcione también en pestañas en segundo plano
-    const mirar = () => {
-      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) {
-        el.classList.add('visto')
-        quitar()
-      }
-    }
-    const quitar = () => {
-      window.removeEventListener('scroll', mirar)
-      window.removeEventListener('resize', mirar)
-    }
-    window.addEventListener('scroll', mirar, { passive: true })
-    window.addEventListener('resize', mirar)
-    mirar()
-    return quitar
-  }, [])
-  return ref
-}
-
-/** La franja del poste de barbero, en los colores del local: neón, blanco y negro. Gira despacio. */
-export function Franja({ alto = 56, className = '' }: { alto?: number; className?: string }) {
-  const id = useId().replace(/:/g, '')
-  const paso = 18
-  return (
-    <div className={`franja ${className}`} style={{ height: alto }} aria-hidden="true">
-      <svg width="100%" height={alto}>
-        <defs>
-          <pattern id={id} width={paso * 4} height={alto} patternUnits="userSpaceOnUse" patternTransform="skewX(-40)">
-            <rect x={0} width={paso} height={alto} fill="var(--neon-fuerte)" />
-            <rect x={paso} width={paso} height={alto} fill="var(--blanco)" />
-            <rect x={paso * 2} width={paso} height={alto} fill="var(--negro)" />
-            <rect x={paso * 3} width={paso} height={alto} fill="var(--blanco)" />
-          </pattern>
-        </defs>
-        <rect className="franja-giro" x={-paso * 4} width="130%" height={alto} fill={`url(#${id})`} />
-      </svg>
-    </div>
-  )
-}
+import { useEffect, useRef, type ReactNode } from 'react'
 
 /** El logo de Ayrton: el corazón invertido con la tijera, como el cartel de neón del local. */
 export function Logo({ tamaño = 36, className = '' }: { tamaño?: number; className?: string }) {
@@ -58,46 +12,6 @@ export function Logo({ tamaño = 36, className = '' }: { tamaño?: number; class
         <circle cx="62" cy="76" r="5" />
         <circle cx="76" cy="70" r="5" />
         <path d="M66 72l14-18M72 67l-12-13" />
-      </g>
-    </svg>
-  )
-}
-
-/** Hexágono de lado 1 con centro (cx, cy), como los tubos de luz del techo del local. */
-const hexagono = (cx: number, cy: number, r: number) =>
-  Array.from({ length: 6 }, (_, i) => {
-    const a = (Math.PI / 3) * i
-    return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`
-  }).join(' ')
-
-/** El techo de hexágonos de LED, dibujado como líneas de luz. */
-export function Techo({ columnas = 9, filas = 3, r = 60, className = '' }: { columnas?: number; filas?: number; r?: number; className?: string }) {
-  const id = useId().replace(/:/g, '')
-  const w = r * 1.5
-  const h = r * Math.sqrt(3)
-  const celdas: string[] = []
-  for (let c = 0; c < columnas; c++)
-    for (let f = 0; f < filas + 1; f++) celdas.push(hexagono(c * w, f * h + (c % 2 ? h / 2 : 0), r - 7))
-  return (
-    <svg
-      className={`techo ${className}`}
-      viewBox={`${r * 0.5} ${h * 0.3} ${(columnas - 1) * w} ${filas * h}`}
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden="true"
-    >
-      <defs>
-        <filter id={id} x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="5" result="b" />
-          <feMerge>
-            <feMergeNode in="b" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-      <g filter={`url(#${id})`}>
-        {celdas.map((p, i) => (
-          <polygon key={i} points={p} />
-        ))}
       </g>
     </svg>
   )

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { negocio, type SucursalId } from '../config/negocio'
@@ -64,6 +64,19 @@ function MiniMes({ dia, alcance, elegir }: { dia: string; alcance: Alcance; eleg
   )
 }
 
+/** En el celular entra un barbero por vez en la vista de día. */
+function useAngosto() {
+  const consulta = '(max-width: 700px)'
+  const [angosto, setAngosto] = useState(() => matchMedia(consulta).matches)
+  useEffect(() => {
+    const m = matchMedia(consulta)
+    const cambiar = () => setAngosto(m.matches)
+    m.addEventListener('change', cambiar)
+    return () => m.removeEventListener('change', cambiar)
+  }, [])
+  return angosto
+}
+
 export default function Agenda() {
   const e = useDemo()
   const { alcance: global, verTurno, nuevoTurno } = useAdmin()
@@ -78,7 +91,12 @@ export default function Agenda() {
 
   const sucursales = negocio.sucursales.filter((s) => alcance === 'todas' || s.id === alcance).map((s) => s.id)
   const equipo = e.equipo.filter((b) => sucursales.includes(b.sucursal))
-  const visibles = equipo.filter((b) => !ocultos.includes(b.id)).map((b) => b.id)
+  const angosto = useAngosto()
+  const [uno, setUno] = useState<string | null>(null)
+  const dow = deClave(dia).getDay()
+  const elegido = equipo.find((b) => b.id === uno) ?? equipo.find((b) => b.franco !== dow) ?? equipo[0]
+  const unoPorVez = angosto && vista === 'dia' && elegido
+  const visibles = unoPorVez ? [elegido.id] : equipo.filter((b) => !ocultos.includes(b.id)).map((b) => b.id)
   const semana = useMemo(() => Array.from({ length: 7 }, (_, i) => sumarDias(lunes(dia), i)), [dia])
   const paso = vista === 'dia' ? 1 : 7
 
@@ -187,6 +205,16 @@ export default function Agenda() {
         </aside>
 
         <section className="agenda-principal" aria-label="Calendario de turnos">
+          {vista === 'dia' && (
+            <div className="uno-por-vez" role="tablist" aria-label="Barbero">
+              {equipo.map((b) => (
+                <button key={b.id} role="tab" aria-selected={elegido?.id === b.id} className={elegido?.id === b.id ? 'activa' : ''} onClick={() => setUno(b.id)}>
+                  <Persona b={b} chico />
+                  {b.nombre}
+                </button>
+              ))}
+            </div>
+          )}
           <Calendario
             vista={vista}
             dia={dia}

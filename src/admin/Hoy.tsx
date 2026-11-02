@@ -160,7 +160,7 @@ export default function Hoy() {
 
       <div className="grilla-rail">
         <div className="columna">
-          <section className="tarjeta">
+          <section className="tarjeta solo-ancho">
             <div className="tarjeta-cabeza">
               <h2>Sillones de hoy</h2>
               <Link to="/admin/agenda" className="enlace-chico">Abrir agenda</Link>
@@ -184,7 +184,7 @@ export default function Hoy() {
             {espera.length === 0 ? (
               <p className="vacio">No hay nadie esperando. Cuando alguien llegue sin turno, anotalo acá y le decís cuánto falta.</p>
             ) : (
-              <table className="tabla">
+              <table className="tabla tabla-espera">
                 <thead>
                   <tr><th>Cliente</th><th>Servicio</th><th className="num">Llegó</th><th className="num">Espera estimada</th><th /></tr>
                 </thead>

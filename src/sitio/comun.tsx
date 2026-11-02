@@ -10,7 +10,7 @@ export function BarraDemo({ a = '/admin', texto = 'Ver el panel del negocio' }: 
       <p>
         Demo de {PRODUCTO} para {negocio.nombre}. Las reservas son de prueba.
       </p>
-      <Link to={a}>{texto} →</Link>
+      <Link to={a}>{texto}</Link>
     </div>
   )
 }

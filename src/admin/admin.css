@@ -82,11 +82,9 @@
 }
 .producto strong {
   display: block;
-  font-stretch: 75%;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 16px;
-  text-transform: uppercase;
-  line-height: 1.1;
+  line-height: 1.2;
 }
 .producto small,
 .usuario small {
@@ -273,11 +271,10 @@
   flex-wrap: wrap;
 }
 .titulo-fila h1 {
-  font-stretch: 68%;
-  font-weight: 850;
-  font-size: 40px;
-  line-height: 0.95;
-  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
 }
 .titulo-fila p {
   margin: 6px 0 0;
@@ -443,7 +440,6 @@
   font-weight: 500;
 }
 .kpi strong {
-  font-stretch: 75%;
   font-size: 34px;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -549,14 +545,14 @@
   margin: 12px 0 0;
 }
 
-/* ——— Personas: hexágonos, como el techo del local ——— */
+/* ——— Personas ——— */
 .persona {
   width: 32px;
-  height: 36px;
+  height: 32px;
   display: inline-grid;
   place-items: center;
   flex: none;
-  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  border-radius: 50%;
   font-weight: 800;
   font-size: 12.5px;
   background: hsl(var(--tono) 62% 46%);
@@ -564,7 +560,7 @@
 }
 .persona-chica {
   width: 24px;
-  height: 27px;
+  height: 24px;
   font-size: 10.5px;
 }
 .persona-dueño {
@@ -1163,7 +1159,6 @@
   color: var(--tenue);
 }
 .cal-dia-num {
-  font-stretch: 75%;
   font-size: 28px;
   font-weight: 800;
   line-height: 1.05;
@@ -1570,7 +1565,6 @@
   text-underline-offset: 3px;
 }
 .lista-hora {
-  font-stretch: 75%;
   font-weight: 800;
   font-size: 17px;
   font-variant-numeric: tabular-nums;
@@ -1587,7 +1581,6 @@
   font-size: 12.5px;
 }
 .lista-historial .lista-hora {
-  font-stretch: 100%;
   font-weight: 600;
   font-size: 14px;
   width: 64px;
@@ -1854,7 +1847,6 @@
   margin-bottom: 16px;
 }
 .dialogo-cabeza h2 {
-  font-stretch: 75%;
   font-size: 24px;
   font-weight: 800;
   margin: 0;
@@ -2098,6 +2090,48 @@
     grid-template-columns: 110px 1fr auto;
   }
   .semana .boton[aria-label] {
+    display: none;
+  }
+}
+
+/* ——— Celular: lo que no entra se reemplaza por algo que se lea ——— */
+.uno-por-vez {
+  display: none;
+}
+@media (max-width: 700px) {
+  .solo-ancho {
+    display: none !important;
+  }
+  .uno-por-vez {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .uno-por-vez button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: none;
+    height: 40px;
+    padding: 0 14px 0 6px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--tarjeta);
+    font: inherit;
+    font-weight: 600;
+    color: var(--texto);
+    cursor: pointer;
+  }
+  .uno-por-vez button.activa {
+    background: var(--marco);
+    color: #fff;
+  }
+  .tabla-espera th:nth-child(2),
+  .tabla-espera td:nth-child(2),
+  .tabla-espera th:nth-child(3),
+  .tabla-espera td:nth-child(3) {
     display: none;
   }
 }

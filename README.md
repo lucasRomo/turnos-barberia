@@ -4,13 +4,13 @@ Demo visual de un sistema de turnos para barberías y peluquerías, armada para 
 **Ayrton Estilistas** (Villa Carlos Paz). Es todo frontend: no hay servidor ni base de datos.
 Los datos de prueba se generan solos y se guardan en el navegador de quien la abre.
 
-- **Web pública** (`#/`): la página de la barbería con el próximo turno libre en vivo, trabajos de su Instagram,
-  precios, carrusel de reseñas de Google, si cada sucursal está abierta ahora y la reserva en 5 pasos.
+- **Web pública** (`#/`): la ficha de la barbería como en una app de turnos, pensada primero para el celular: galería,
+  próximo turno libre por sucursal, servicios con su botón de reservar, trabajos de su Instagram, equipo, reseñas de
+  Google, sucursales con horario y si están abiertas ahora, y una barra fija abajo para sacar turno. Reserva en 5 pasos.
 - **Panel del negocio** (`#/admin`): quién está en cada sillón ahora, agenda tipo calendario (vista día por barbero
   y vista semana de ocupación), clientes, caja, reportes, servicios y precios, equipo y comisiones.
 
-El diseño toma la identidad del local: negro, el mármol de las paredes, el techo de hexágonos de LED y el cartel
-de neón violeta con el logo.
+El diseño usa los colores del local (blanco y mármol, negro y el violeta del cartel de neón) y su logo, sin adornos: en el celular la agenda muestra un barbero por vez.
 
 Lo que se reserva en la web aparece en la agenda del panel. El botón **Reiniciar demo** del panel vuelve todo a cero.
 
