@@ -14,8 +14,9 @@ El mismo código arma dos demos, cada una con sus datos, colores, logo y fotos:
   próximo turno libre por sucursal, precios, trabajos, equipo con el próximo lugar de cada uno, reseñas,
   sucursales con horario y si están abiertas ahora, y una barra fija abajo para sacar turno. Reserva en 5 pasos.
 - **Panel del negocio** (`#/admin`): quién está en cada sillón ahora, agenda, clientes, caja, reportes, servicios y
-  precios, equipo y comisiones. En el celular la agenda es una lista del día con una tira de días arriba, los
-  barberos para elegir y los huecos libres entre turnos (se tocan para cargar uno); las tablas pasan a tarjetas.
+  precios, equipo y comisiones. En el celular la agenda es un calendario como el de Fresha o Booksy: tira de días arriba,
+  una columna por barbero que se desliza de costado, la línea de la hora actual, y se toca un hueco para cargar
+  un turno. Con un botón pasa a lista con los huecos libres. Las tablas pasan a tarjetas.
 
 Lo que se reserva en la web aparece en la agenda del panel. El botón **Reiniciar demo** del panel vuelve todo a cero.
 

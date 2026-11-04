@@ -2737,3 +2737,298 @@ html {
     display: block;
   }
 }
+
+/* ——— Agenda en el celular: calendario con una columna por barbero ——— */
+.am-acciones {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.am-vistas {
+  display: flex;
+  padding: 3px;
+  border-radius: 12px;
+  background: var(--suave);
+}
+.am-vistas button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 36px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: var(--tenue);
+  cursor: pointer;
+}
+.am-vistas button.activa {
+  background: var(--tarjeta);
+  color: var(--texto);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+}
+.amc {
+  --col: 132px;
+  --horas: 50px;
+  position: relative;
+  height: max(460px, calc(100dvh - 330px));
+  margin: 0 -18px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--tarjeta);
+  border-top: 1px solid var(--borde);
+  border-bottom: 1px solid var(--borde);
+  -webkit-overflow-scrolling: touch;
+}
+.amc-fila {
+  display: grid;
+  grid-template-columns: var(--horas) repeat(var(--columnas), var(--col));
+  min-width: max-content;
+}
+.amc-uno .amc-fila {
+  grid-template-columns: var(--horas) minmax(0, 1fr);
+  min-width: 100%;
+}
+.amc-cabeza {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  background: var(--tarjeta);
+  border-bottom: 1px solid var(--borde);
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.04);
+}
+.amc-esquina {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--tarjeta);
+}
+.amc-barbero {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  min-width: 0;
+  border-left: 1px solid var(--regla);
+}
+.amc-barbero span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+.amc-barbero strong {
+  font-size: 15px;
+}
+.amc-barbero small {
+  font-size: 12px;
+  color: var(--tenue);
+}
+.amc-separa {
+  border-left: 3px solid var(--marco) !important;
+}
+.amc-cuerpo {
+  position: relative;
+}
+.amc-horas {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  background: var(--tarjeta);
+  border-right: 1px solid var(--borde);
+}
+.amc-horas span {
+  position: absolute;
+  left: 0;
+  right: 6px;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tenue);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.amc-horas span:first-child {
+  transform: none;
+}
+.amc-columna {
+  position: relative;
+  border-left: 1px solid var(--regla);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.amc-linea {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--regla);
+  pointer-events: none;
+}
+.amc-linea::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 45px;
+  border-top: 1px dashed var(--regla);
+}
+.amc-cerrado {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(-45deg, var(--suave) 0 6px, transparent 6px 12px);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tenue);
+  pointer-events: none;
+}
+.amc-turno {
+  position: absolute;
+  left: 3px;
+  right: 3px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 4px 6px 4px 8px;
+  overflow: clip;
+  border: 0;
+  border-radius: 8px;
+  background: hsl(var(--tono) 80% 93%);
+  box-shadow: inset 3px 0 0 hsl(var(--tono) 60% 42%);
+  font: inherit;
+  color: hsl(var(--tono) 60% 16%);
+  text-align: left;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 120ms var(--ease);
+}
+.amc-turno:active {
+  transform: scale(0.97);
+}
+/* El texto acompaña mientras se baja por un turno largo */
+.amc-turno-texto {
+  position: sticky;
+  top: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  max-width: 100%;
+}
+.amc-corto .amc-turno-texto {
+  position: static;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+.amc-turno strong {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  line-height: 1.2;
+}
+.amc-turno small {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  opacity: 0.8;
+}
+.amc-turno-hora {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+.amc-turno-hora i {
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--neon);
+  color: #fff;
+  font-style: normal;
+  font-size: 10px;
+  line-height: 16px;
+}
+.amc-corto {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.amc-atendido {
+  background: hsl(var(--tono) 25% 95%);
+  box-shadow: inset 3px 0 0 hsl(var(--tono) 25% 70%);
+  color: hsl(var(--tono) 15% 35%);
+}
+.amc-ausente {
+  background: repeating-linear-gradient(-45deg, #fdecea 0 5px, #fff 5px 10px);
+  box-shadow: inset 3px 0 0 var(--mal);
+  color: var(--mal);
+}
+.amc-ausente strong {
+  text-decoration: line-through;
+}
+.amc-en-curso {
+  z-index: 2;
+  background: var(--marco);
+  box-shadow: inset 3px 0 0 var(--neon), 0 4px 14px rgb(0 0 0 / 0.25);
+  color: #fff;
+}
+.amc-ahora {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  height: 2px;
+  background: var(--neon);
+  pointer-events: none;
+}
+.amc-ahora span {
+  position: sticky;
+  left: 2px;
+  display: inline-block;
+  transform: translateY(-50%);
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--neon);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+.am-mas {
+  position: fixed;
+  right: 18px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 15;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--neon);
+  color: #fff;
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--marca) 45%, transparent);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 140ms var(--ease);
+}
+.am-mas:active {
+  transform: scale(0.94);
+}
+@media (prefers-reduced-motion: reduce) {
+  .amc-turno,
+  .am-mas {
+    transition: none;
+  }
+}

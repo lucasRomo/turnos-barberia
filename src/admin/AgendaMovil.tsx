@@ -1,18 +1,28 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Plus } from 'lucide-react'
+import { CalendarDays, List, Plus } from 'lucide-react'
 import { negocio } from '../config/negocio'
 import { ahoraMin, aMin, capital, deClave, fechaLarga, hora, hoyClave, mesAño, pesos, sumarDias } from '../lib/formato'
 import { franjas, useDemo } from '../lib/store'
 import { estados, type Turno } from '../lib/tipos'
+import CalendarioMovil from './CalendarioMovil'
 import { Persona, useAdmin, useIndices, type Alcance } from './comun'
 
 const diasCortos = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
 
 type Fila = { tipo: 'turno'; t: Turno } | { tipo: 'libre'; inicio: number; fin: number; barberoId: string } | { tipo: 'ahora'; inicio: number }
 
+type Vista = 'calendario' | 'lista'
+const leerVista = (): Vista => {
+  try {
+    return localStorage.getItem('agenda-vista') === 'lista' ? 'lista' : 'calendario'
+  } catch {
+    return 'calendario'
+  }
+}
+
 /**
- * La agenda en el celular: una tira de días, los barberos arriba y el día como lista,
- * con los huecos libres entre turno y turno. La grilla de horas no entra en 390 px.
+ * La agenda en el celular: una tira de días y los barberos arriba; abajo el día como calendario
+ * (una columna por barbero) o como lista con los huecos libres entre turno y turno.
  */
 export default function AgendaMovil({ dia, alcance, ir }: { dia: string; alcance: Alcance; ir: (c: Record<string, string>) => void }) {
   const e = useDemo()
@@ -21,6 +31,15 @@ export default function AgendaMovil({ dia, alcance, ir }: { dia: string; alcance
   const hoy = hoyClave()
   const ahora = ahoraMin()
   const [quien, setQuien] = useState<string>('todos')
+  const [vista, setVista] = useState<Vista>(leerVista)
+  const cambiarVista = (v: Vista) => {
+    setVista(v)
+    try {
+      localStorage.setItem('agenda-vista', v)
+    } catch {
+      /* sin almacenamiento */
+    }
+  }
   const sucursales = negocio.sucursales.filter((s) => alcance === 'todas' || s.id === alcance)
   const equipo = e.equipo.filter((b) => sucursales.some((s) => s.id === b.sucursal))
   const barbero = equipo.find((b) => b.id === quien) ?? null
@@ -74,9 +93,19 @@ export default function AgendaMovil({ dia, alcance, ir }: { dia: string; alcance
           <h1>Agenda</h1>
           <p>{capital(mesAño(dia))}</p>
         </div>
-        <button className="boton" onClick={() => ir({ dia: hoy })} disabled={dia === hoy}>
-          Hoy
-        </button>
+        <div className="am-acciones">
+          <button className="boton" onClick={() => ir({ dia: hoy })} disabled={dia === hoy}>
+            Hoy
+          </button>
+          <div className="am-vistas" role="tablist" aria-label="Cómo ver el día">
+            <button role="tab" aria-selected={vista === 'calendario'} className={vista === 'calendario' ? 'activa' : ''} onClick={() => cambiarVista('calendario')} aria-label="Calendario">
+              <CalendarDays size={18} aria-hidden="true" />
+            </button>
+            <button role="tab" aria-selected={vista === 'lista'} className={vista === 'lista' ? 'activa' : ''} onClick={() => cambiarVista('lista')} aria-label="Lista">
+              <List size={18} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
       </div>
 
       {negocio.sucursales.length > 1 && (
@@ -134,7 +163,9 @@ export default function AgendaMovil({ dia, alcance, ir }: { dia: string; alcance
         </span>
       </p>
 
-      {cerrado ? (
+      {vista === 'calendario' && !cerrado ? (
+        <CalendarioMovil dia={dia} barberos={barbero ? [barbero] : equipo} turnos={turnos} />
+      ) : cerrado ? (
         <p className="am-vacio">{alcance === 'todas' ? 'Las dos sucursales cierran' : 'La sucursal cierra'} este día.</p>
       ) : franco ? (
         <p className="am-vacio">
@@ -201,6 +232,13 @@ export default function AgendaMovil({ dia, alcance, ir }: { dia: string; alcance
           })}
         </ol>
       )}
+      <button
+        className="am-mas"
+        onClick={() => nuevoTurno({ dia, ...(barbero ? { barberoId: barbero.id, sucursal: barbero.sucursal } : {}) })}
+        aria-label="Cargar un turno"
+      >
+        <Plus size={26} strokeWidth={2.4} aria-hidden="true" />
+      </button>
     </div>
   )
 }
