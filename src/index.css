@@ -22,7 +22,7 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 ::selection {
-  background: #5b47ff;
+  background: var(--marca);
   color: #fff;
 }
 @media (prefers-reduced-motion: reduce) {

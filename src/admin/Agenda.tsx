@@ -5,6 +5,7 @@ import { negocio, type SucursalId } from '../config/negocio'
 import { capital, deClave, diaMes, fechaLarga, hoyClave, mesAño, pesos, sumarDias } from '../lib/formato'
 import { abierto, useDemo } from '../lib/store'
 import { origenes } from '../lib/tipos'
+import AgendaMovil from './AgendaMovil'
 import Calendario from './Calendario'
 import { enAlcance, Persona, useAdmin, type Alcance } from './comun'
 
@@ -117,6 +118,8 @@ export default function Agenda() {
     vista === 'dia'
       ? capital(fechaLarga(dia))
       : `${diaMes(semana[0])} al ${diaMes(semana[6])}`
+
+  if (angosto) return <AgendaMovil dia={dia} alcance={alcance} ir={ir} />
 
   return (
     <div className="pantalla pantalla-agenda">

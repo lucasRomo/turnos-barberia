@@ -1,16 +1,21 @@
-# Sillón · demo para Ayrton Estilistas
+# Sillón · turnos online para barberías
 
-Demo visual de un sistema de turnos para barberías y peluquerías, armada para mostrársela a
-**Ayrton Estilistas** (Villa Carlos Paz). Es todo frontend: no hay servidor ni base de datos.
+Demo visual de un sistema de turnos para barberías y peluquerías. Es todo frontend: no hay servidor ni base de datos.
 Los datos de prueba se generan solos y se guardan en el navegador de quien la abre.
 
-- **Web pública** (`#/`): la ficha de la barbería como en una app de turnos, pensada primero para el celular: galería,
-  próximo turno libre por sucursal, servicios con su botón de reservar, trabajos de su Instagram, equipo, reseñas de
-  Google, sucursales con horario y si están abiertas ahora, y una barra fija abajo para sacar turno. Reserva en 5 pasos.
-- **Panel del negocio** (`#/admin`): quién está en cada sillón ahora, agenda tipo calendario (vista día por barbero
-  y vista semana de ocupación), clientes, caja, reportes, servicios y precios, equipo y comisiones.
+El mismo código arma dos demos, cada una con sus datos, colores, logo y fotos:
 
-El diseño usa los colores del local (blanco y mármol, negro y el violeta del cartel de neón) y su logo, sin adornos: en el celular la agenda muestra un barbero por vez.
+| Demo | Para qué | Datos | Link |
+| --- | --- | --- | --- |
+| **Barbería Filo** | Mostrársela a cualquier barbería | [`src/config/filo.ts`](src/config/filo.ts), inventada | `https://lucasromo.github.io/turnos-barberia/` |
+| **Ayrton Estilistas** | La propuesta para Ayrton | [`src/config/ayrton.ts`](src/config/ayrton.ts), datos reales | `https://lucasromo.github.io/turnos-barberia/ayrton/` |
+
+- **Web pública** (`#/`): la ficha de la barbería como en una app de turnos, pensada primero para el celular: fotos,
+  próximo turno libre por sucursal, precios, trabajos, equipo con el próximo lugar de cada uno, reseñas,
+  sucursales con horario y si están abiertas ahora, y una barra fija abajo para sacar turno. Reserva en 5 pasos.
+- **Panel del negocio** (`#/admin`): quién está en cada sillón ahora, agenda, clientes, caja, reportes, servicios y
+  precios, equipo y comisiones. En el celular la agenda es una lista del día con una tira de días arriba, los
+  barberos para elegir y los huecos libres entre turnos (se tocan para cargar uno); las tablas pasan a tarjetas.
 
 Lo que se reserva en la web aparece en la agenda del panel. El botón **Reiniciar demo** del panel vuelve todo a cero.
 
@@ -35,11 +40,20 @@ Links para mandar:
 
 ## Hacer la demo para otra peluquería
 
-Todo lo del negocio está en [`src/config/negocio.ts`](src/config/negocio.ts): nombre, sucursales,
-horarios, servicios, precios, equipo y productos. Se cambia ese archivo y listo.
-Ahí también están las reseñas y la lista de fotos. Los textos de la web están en [`src/sitio/Sitio.tsx`](src/sitio/Sitio.tsx).
+1. Copiar [`src/config/filo.ts`](src/config/filo.ts) con otro nombre y cambiar los datos: nombre, colores, sucursales,
+   horarios, servicios, precios, equipo, productos, reseñas, fotos (en `public/img/<negocio>/`) y créditos.
+2. Sumarlo en [`src/config/negocio.ts`](src/config/negocio.ts), crear `.env.<negocio>` con `VITE_NEGOCIO=<negocio>` y poner el título de la pestaña en [`vite.config.ts`](vite.config.ts).
+3. `npm run dev -- --mode <negocio>` para verlo, y sumar un `vite build --mode <negocio> --outDir dist/<negocio>`
+   al script `build` de `package.json` para publicarlo en `/<repo>/<negocio>/`.
 
-## Antes de mostrarla: qué es real y qué es de muestra
+`npm run dev` abre Filo; `npm run dev -- --mode ayrton` abre Ayrton.
+
+## La demo de Filo
+
+Todo es inventado: nombre, direcciones, teléfonos (555), equipo, reseñas, clientes y turnos. Las fotos son de
+Wikimedia Commons con licencia libre (Nenad Stojkovic, CC BY 2.0; Classic Barbers, CC0), con el crédito al pie.
+
+## La demo de Ayrton: qué es real y qué es de muestra
 
 **Real** (tomado de su Instagram, su ficha de Google y su página de turnos actual): nombre, logo, las dos
 sucursales y direcciones, horarios, teléfonos, el equipo (Agus, Benja, Blas, Lucas, Fede), los precios de Corte,

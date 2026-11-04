@@ -8,7 +8,9 @@ export function BarraDemo({ a = '/admin', texto = 'Ver el panel del negocio' }: 
   return (
     <div className="barra-demo">
       <p>
-        Demo de {PRODUCTO} para {negocio.nombre}. Las reservas son de prueba.
+        {negocio.inventado
+          ? `Demo de ${PRODUCTO} para barberías. ${negocio.nombre} es inventada y las reservas son de prueba.`
+          : `Demo de ${PRODUCTO} para ${negocio.nombre}. Las reservas son de prueba.`}
       </p>
       <Link to={a}>{texto}</Link>
     </div>
@@ -16,19 +18,19 @@ export function BarraDemo({ a = '/admin', texto = 'Ver el panel del negocio' }: 
 }
 
 export function Creditos() {
-  const autores = [...new Set(Object.values(negocio.fotos).map((f) => f.autor))]
+  const { texto, enlaces } = negocio.creditos
   return (
     <p className="creditos">
-      Fotos de Instagram:{' '}
-      {autores.map((a, i) => (
-        <span key={a}>
-          <a href={`https://instagram.com/${a}`} target="_blank" rel="noreferrer">
-            @{a}
+      {texto}:{' '}
+      {enlaces.map((a, i) => (
+        <span key={a.url}>
+          <a href={a.url} target="_blank" rel="noreferrer">
+            {a.texto}
           </a>
-          {i < autores.length - 1 ? ', ' : '.'}
+          {i < enlaces.length - 1 ? ', ' : '.'}
         </span>
       ))}{' '}
-      Reseñas de Google.
+      {negocio.inventado ? 'Nombres, datos y reseñas de ejemplo.' : 'Reseñas de Google.'}
     </p>
   )
 }

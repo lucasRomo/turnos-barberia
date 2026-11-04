@@ -33,7 +33,7 @@ const notas = [
   'Degradé bajo, 1 a los costados.',
   'Arriba largo con tijera. No rebajar patillas.',
   'Barba en punta, perfilar cuello.',
-  'Siempre con Blas. Prefiere los sábados a la mañana.',
+  `Siempre con ${negocio.equipo[Math.min(2, negocio.equipo.length - 1)].nombre}. Prefiere los sábados a la mañana.`,
   'Cabello fino: no usar máquina en la coronilla.',
   'Trae al hijo (8 años) los mismos días.',
   'Raya al costado marcada a navaja.',
@@ -159,7 +159,7 @@ export function generar(): Estado {
       for (const suc of negocio.sucursales) {
         const franjas = suc.horario[dow]
         if (!franjas) continue
-        const ventas = Math.floor(r() * (suc.id === 'nuevo' ? 4 : 2))
+        const ventas = Math.floor(r() * (suc.id === negocio.sucursales[0].id ? 4 : 2))
         for (let i = 0; i < ventas; i++) {
           const p = elegir(r, productos)
           const h = aMin(franjas[0][0]) + 30 + Math.floor(r() * 300)
@@ -186,8 +186,8 @@ export function generar(): Estado {
   const franjasHoy = nuevo.horario[new Date().getDay()]
   if (franjasHoy?.some(([a, b]) => ahora >= aMin(a) && ahora < aMin(b) - 30)) {
     espera.push(
-      { id: 'e1', nombre: 'Gonzalo P.', servicioId: 'corte', sucursal: 'nuevo', llegada: ahora - 14 },
-      { id: 'e2', nombre: 'Tobías', servicioId: 'corte-barba', sucursal: 'nuevo', llegada: ahora - 6 },
+      { id: 'e1', nombre: 'Gonzalo P.', servicioId: 'corte', sucursal: nuevo.id, llegada: ahora - 14 },
+      { id: 'e2', nombre: 'Tobías', servicioId: 'corte-barba', sucursal: nuevo.id, llegada: ahora - 6 },
     )
   }
 

@@ -8,7 +8,6 @@ import { Logo } from '../lib/ui'
 import { BarraDemo, Creditos } from './comun'
 
 const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado']
-const f = negocio.fotos
 const whatsapp = (tel: string, texto?: string) =>
   `https://wa.me/54${tel.replace(/\D/g, '')}${texto ? `?text=${encodeURIComponent(texto)}` : ''}`
 
@@ -75,13 +74,13 @@ function Cabecera() {
 
 /** Arriba de todo: quiénes son, cómo los califican y el próximo turno libre. */
 function Portada() {
-  const ahora = estadoAhora('nuevo')
+  const ahora = estadoAhora(negocio.sucursales[0].id)
   return (
     <header className="portada">
       <div className="portada-fotos">
-        <img src={f.salon.src} alt={f.salon.alt} width={f.salon.ancho} height={f.salon.alto} fetchPriority="high" />
-        <img src={f.neon.src} alt={f.neon.alt} width={f.neon.ancho} height={f.neon.alto} />
-        <img src={f.mullet.src} alt={f.mullet.alt} width={f.mullet.ancho} height={f.mullet.alto} />
+        {negocio.fotos.portada.map((foto, i) => (
+          <img key={foto.src} src={foto.src} alt={foto.alt} width={foto.ancho} height={foto.alto} fetchPriority={i === 0 ? 'high' : 'auto'} />
+        ))}
       </div>
       <div className="portada-texto">
         <a href="#resenas" className="portada-nota">
@@ -90,10 +89,10 @@ function Portada() {
           <span>{negocio.calificacion.reseñas} reseñas en Google</span>
         </a>
         <h1>{negocio.nombre}</h1>
-        <p className="portada-bajada">Barbería en {negocio.ciudad}, para niños y mayores. Dos locales en el centro, café de la casa y turnos online sin seña.</p>
+        <p className="portada-bajada">{negocio.bajada}</p>
         <p className={`portada-estado ${ahora.abierto ? 'abierto' : ''}`}>
           <span className="punto" aria-hidden="true" />
-          Centro Nuevo: {ahora.texto.toLowerCase()}
+          {negocio.sucursales[0].nombre}: {ahora.texto.toLowerCase()}
         </p>
         <ProximoLibre />
       </div>
@@ -105,7 +104,7 @@ function Portada() {
 function ProximoLibre() {
   const e = useDemo()
   const id = useId()
-  const [suc, setSuc] = useState<SucursalId>('nuevo')
+  const [suc, setSuc] = useState<SucursalId>(negocio.sucursales[0].id)
   const libre = useMemo(() => proximoLibre(e, suc), [e, suc])
   const barbero = libre && e.equipo.find((b) => b.id === libre.barberoId)
   const corte = e.servicios.find((s) => s.id === 'corte')!
@@ -205,15 +204,6 @@ function Servicios() {
   )
 }
 
-const trabajos = [f.diseno, f.mullet, f.mechas, f.salon, f.neon, f.cafe]
-const titulos: Record<string, string> = {
-  [f.mullet.src]: 'Mullet con mechas',
-  [f.mechas.src]: 'Mechas en proceso',
-  [f.diseno.src]: 'Fade con diseño',
-  [f.salon.src]: 'Centro Nuevo',
-  [f.neon.src]: 'Centro Viejo',
-  [f.cafe.src]: 'El café de la casa',
-}
 
 function Trabajos() {
   return (
@@ -230,14 +220,18 @@ function Trabajos() {
           </p>
         </div>
         <ul className="trabajos">
-          {trabajos.map((foto) => (
+          {negocio.fotos.trabajos.map((foto) => (
             <li key={foto.src}>
               <img src={foto.src} alt={foto.alt} width={foto.ancho} height={foto.alto} loading="lazy" />
               <p>
-                <strong>{titulos[foto.src]}</strong>
-                <a href={`https://instagram.com/${foto.autor}`} target="_blank" rel="noreferrer">
-                  @{foto.autor}
-                </a>
+                <strong>{foto.titulo}</strong>
+                {negocio.inventado ? (
+                  <span>@{negocio.instagram}</span>
+                ) : (
+                  <a href={`https://instagram.com/${foto.autor}`} target="_blank" rel="noreferrer">
+                    @{foto.autor}
+                  </a>
+                )}
               </p>
             </li>
           ))}
@@ -303,9 +297,13 @@ function Resenas() {
           <Estrellas tamaño={22} />
           <p className="bloque-bajada">
             {negocio.calificacion.reseñas} reseñas en{' '}
-            <a href={negocio.google} target="_blank" rel="noreferrer">
-              Google
-            </a>
+            {negocio.google ? (
+              <a href={negocio.google} target="_blank" rel="noreferrer">
+                Google
+              </a>
+            ) : (
+              'Google'
+            )}
           </p>
         </div>
         <div>
@@ -334,28 +332,20 @@ function Resenas() {
 function EnElLocal() {
   return (
     <section className="local" aria-label="En el local">
-      <article className="local-item local-cafe">
-        <img src={f.cafe.src} alt={f.cafe.alt} width={f.cafe.ancho} height={f.cafe.alto} loading="lazy" />
-        <div>
-          <h2>Café mientras esperás</h2>
-          <p>Si llegás antes o venís a acompañar a alguien, en Centro Nuevo te servimos un café.</p>
-        </div>
-      </article>
-      <article className="local-item local-academia">
-        <img src={f.neon.src} alt="" width={f.neon.ancho} height={f.neon.alto} loading="lazy" />
-        <div>
-          <h2>Ayrton Academy</h2>
-          <p>Curso presencial de barbería 2026, en el salón y con clientes reales. Cupos chicos.</p>
-          <a
-            className="btn btn-blanco btn-chico"
-            href={whatsapp(negocio.sucursales[0].telefono, 'Hola! Quiero info del curso de barbería de Ayrton Academy')}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Pedir info por WhatsApp
-          </a>
-        </div>
-      </article>
+      {negocio.local.map((l) => (
+        <article key={l.titulo} className={`local-item ${l.acento ? 'local-acento' : ''}`}>
+          <img src={l.foto.src} alt={l.acento ? '' : l.foto.alt} width={l.foto.ancho} height={l.foto.alto} loading="lazy" />
+          <div>
+            <h2>{l.titulo}</h2>
+            <p>{l.texto}</p>
+            {l.whatsapp && (
+              <a className="btn btn-blanco btn-chico" href={whatsapp(negocio.sucursales[0].telefono, l.whatsapp)} target="_blank" rel="noreferrer">
+                {l.boton ?? 'Escribinos por WhatsApp'}
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
     </section>
   )
 }

@@ -39,7 +39,7 @@ export default function Layout() {
       alcance,
       verTurno: setTurno,
       nuevoTurno: (p) => {
-        const sucursal = p?.sucursal ?? (alcance === 'todas' ? 'nuevo' : alcance)
+        const sucursal = p?.sucursal ?? (alcance === 'todas' ? negocio.sucursales[0].id : alcance)
         const dia = p?.dia ?? hoyClave()
         const fr = franjas(sucursal, dia)
         const ahora = Math.ceil(ahoraMin() / 30) * 30
@@ -89,7 +89,7 @@ export default function Layout() {
             <RotateCcw size={16} strokeWidth={1.8} aria-hidden="true" /> Reiniciar demo
           </button>
           <div className="usuario">
-            <span className="persona persona-dueño" aria-hidden="true">AY</span>
+            <span className="persona persona-dueño" aria-hidden="true">{negocio.dueño.slice(0, 2).toUpperCase()}</span>
             <span>
               <strong>{negocio.dueño}</strong>
               <small>Dueño</small>

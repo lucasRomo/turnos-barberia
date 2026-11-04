@@ -6,7 +6,7 @@ import { aMin, ahoraMin, deClave, hoyClave, sumarDias } from './formato'
 import { generar, VERSION } from './semilla'
 import type { Cliente, EnEspera, Estado, MetodoPago, Movimiento, Turno } from './tipos'
 
-const CLAVE = 'ayrton-demo'
+const CLAVE = `${negocio.id}-demo`
 
 function cargar(): Estado {
   try {

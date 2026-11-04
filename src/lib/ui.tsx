@@ -1,7 +1,19 @@
 import { useEffect, useRef, type ReactNode } from 'react'
+import { negocio } from '../config/negocio'
 
-/** El logo de Ayrton: el corazón invertido con la tijera, como el cartel de neón del local. */
+/** El logo del negocio. Ayrton: el corazón invertido con la tijera, como el cartel de neón del local. */
 export function Logo({ tamaño = 36, className = '' }: { tamaño?: number; className?: string }) {
+  if (negocio.id === 'filo')
+    // Filo: el cuadrado con el filo de la navaja en diagonal
+    return (
+      <svg className={`logo ${className}`} width={tamaño} height={tamaño} viewBox="0 0 100 100" aria-hidden="true">
+        <rect className="logo-forma" x="6" y="6" width="88" height="88" rx="26" />
+        <g className="logo-tijera" fill="none" strokeLinecap="round">
+          <path d="M27 73L73 27" strokeWidth="9" />
+          <path d="M40 75L75 40" strokeWidth="4" />
+        </g>
+      </svg>
+    )
   return (
     <svg className={`logo ${className}`} width={tamaño} height={tamaño} viewBox="0 0 100 100" aria-hidden="true">
       <path

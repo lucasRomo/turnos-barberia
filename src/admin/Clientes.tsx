@@ -15,6 +15,8 @@ const pestanas: { id: Pestana; texto: string }[] = [
   { id: 'recuperar', texto: 'Hace más de 45 días que no vienen' },
 ]
 
+const hace = (d: number) => (d <= 0 ? 'hoy' : d === 1 ? 'ayer' : `hace ${d} días`)
+
 export default function Clientes() {
   const e = useDemo()
   const ix = useIndices(e)
@@ -112,8 +114,8 @@ export default function Clientes() {
                 <small>{f.c.telefono}</small>
               </td>
               <td>{f.habitual ? <span className="con-persona"><Persona b={f.habitual} chico /> {f.habitual.nombre}</span> : <span className="tenue">—</span>}</td>
-              <td className="num">{f.visitas}</td>
-              <td className="num">{f.ultima ? `${diaMes(f.ultima)} · hace ${diasDesde(f.ultima)} d` : <span className="tenue">—</span>}</td>
+              <td className="num clientes-visitas">{f.visitas}</td>
+              <td className="num">{f.ultima ? `${diaMes(f.ultima)}, ${hace(diasDesde(f.ultima))}` : <span className="tenue">—</span>}</td>
               <td className="num">{f.gastado ? pesos(f.gastado) : <span className="tenue">—</span>}</td>
               <td>{f.proximo ? `${diaMes(f.proximo.dia)}, ${hora(f.proximo.inicio)}` : <span className="tenue">—</span>}</td>
             </tr>

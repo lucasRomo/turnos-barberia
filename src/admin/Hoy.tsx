@@ -60,7 +60,7 @@ export default function Hoy() {
 
   // Espera estimada: lo que le falta al barbero más cerca de liberarse, más los que esperan antes
   const libreEn = (() => {
-    const equipo = e.equipo.filter((b) => b.sucursal === (alcance === 'viejo' ? 'viejo' : 'nuevo'))
+    const equipo = e.equipo.filter((b) => b.sucursal === (alcance === 'todas' ? negocio.sucursales[0].id : alcance))
     const fines = equipo.map((b) => {
       const enCurso = d.deHoy.find((t) => t.barberoId === b.id && t.inicio <= ahora && t.inicio + t.duracion > ahora)
       return enCurso ? enCurso.inicio + enCurso.duracion - ahora : 0
@@ -176,7 +176,7 @@ export default function Hoy() {
               <h2>Sin turno, por orden de llegada</h2>
               <button
                 className="boton boton-chico"
-                onClick={() => sumarEspera({ nombre: `Cliente ${e.espera.length + 1}`, servicioId: 'corte', sucursal: alcance === 'viejo' ? 'viejo' : 'nuevo', llegada: ahora })}
+                onClick={() => sumarEspera({ nombre: `Cliente ${e.espera.length + 1}`, servicioId: 'corte', sucursal: alcance === 'todas' ? negocio.sucursales[0].id : alcance, llegada: ahora })}
               >
                 Anotar cliente
               </button>

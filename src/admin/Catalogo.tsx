@@ -31,7 +31,7 @@ export function Servicios() {
           <button className="boton boton-primario" onClick={() => setEditar('nuevo')}>Nuevo servicio</button>
         </div>
       </div>
-      <table className="tabla">
+      <table className="tabla tabla-servicios">
         <thead>
           <tr><th>Servicio</th><th>Tipo</th><th className="num">Duración</th><th className="num">Precio</th><th className="num">Últimos 30 días</th><th>En la web</th><th /></tr>
         </thead>
@@ -160,7 +160,7 @@ export function Equipo() {
           <p>{e.equipo.length} barberos en {negocio.sucursales.length} sucursales · números de {new Intl.DateTimeFormat('es-AR', { month: 'long' }).format(new Date())}</p>
         </div>
       </div>
-      <table className="tabla">
+      <table className="tabla tabla-equipo">
         <thead>
           <tr><th>Barbero</th><th>Sucursal</th><th className="num">Turnos del mes</th><th className="num">Facturado</th><th className="num">Comisión</th><th className="num">A pagar</th></tr>
         </thead>
@@ -172,7 +172,7 @@ export function Equipo() {
               <tr key={b.id}>
                 <td><span className="con-persona"><Persona b={b} /> <span><strong>{b.nombre}</strong><small>Desde {b.desde}</small></span></span></td>
                 <td>{negocio.sucursales.find((s) => s.id === b.sucursal)!.nombre}</td>
-                <td className="num">{suyos.length}</td>
+                <td className="num equipo-turnos">{suyos.length}</td>
                 <td className="num">{pesos(total)}</td>
                 <td className="num">
                   <select className="select-chico" value={b.comision} onChange={(ev) => actualizarBarbero(b.id, { comision: Number(ev.target.value) })} aria-label={`Comisión de ${b.nombre}`}>

@@ -11,10 +11,10 @@
   --texto: #121217;
   --tenue: #5f6372;
   --suave: #f1f2f5;
-  --neon: #5b47ff;
-  --neon-hover: #4a36f0;
-  --neon-suave: #eeecff;
-  --neon-tinta: #3a28c9;
+  --neon: var(--marca);
+  --neon-hover: var(--marca-hover);
+  --neon-suave: var(--marca-claro);
+  --neon-tinta: var(--marca-tinta);
   --ok: #0f7a41;
   --mal: #c2271e;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -56,7 +56,7 @@
 }
 .admin .logo-forma {
   fill: #000;
-  stroke: #8f82ff;
+  stroke: var(--marca-tenue);
   stroke-width: 5;
   filter: drop-shadow(0 0 5px rgb(143 130 255 / 0.9));
 }
@@ -148,8 +148,8 @@
   bottom: 9px;
   width: 3px;
   border-radius: 0 3px 3px 0;
-  background: #8f82ff;
-  box-shadow: 0 0 10px #8f82ff;
+  background: var(--marca-tenue);
+  box-shadow: 0 0 10px var(--marca-tenue);
 }
 .menu a.active svg {
   color: #a99fff;
@@ -329,7 +329,7 @@
   border-color: var(--neon-hover);
 }
 .superior .boton-primario:hover {
-  box-shadow: 0 0 22px rgb(91 71 255 / 0.55);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--marca) 55%, transparent);
 }
 .boton-peligro {
   color: var(--mal);
@@ -564,7 +564,7 @@
   font-size: 10.5px;
 }
 .persona-dueño {
-  background: #8f82ff;
+  background: var(--marca-tenue);
 }
 .con-persona {
   display: inline-flex;
@@ -650,8 +650,8 @@
   display: block;
   height: 100%;
   border-radius: 999px;
-  background: #8f82ff;
-  box-shadow: 0 0 10px #8f82ff;
+  background: var(--marca-tenue);
+  box-shadow: 0 0 10px var(--marca-tenue);
 }
 .sillon-libre {
   margin: 0;
@@ -793,8 +793,8 @@
   color: #fff;
 }
 .turno-en-curso::before {
-  background: #8f82ff;
-  box-shadow: 0 0 8px #8f82ff;
+  background: var(--marca-tenue);
+  box-shadow: 0 0 8px var(--marca-tenue);
 }
 .ahora {
   position: absolute;
@@ -1349,10 +1349,10 @@
 .cal-en-curso {
   background: var(--marco);
   color: #fff;
-  box-shadow: 0 0 0 2px #8f82ff, 0 0 22px rgb(91 71 255 / 0.45);
+  box-shadow: 0 0 0 2px var(--marca-tenue), 0 0 22px color-mix(in srgb, var(--marca) 45%, transparent);
 }
 .cal-en-curso::before {
-  background: #8f82ff;
+  background: var(--marca-tenue);
 }
 .cal-en-curso .cal-turno-hora {
   opacity: 1;
@@ -1363,7 +1363,7 @@
   font-weight: 800;
   padding: 1px 6px;
   border-radius: 99px;
-  background: #8f82ff;
+  background: var(--marca-tenue);
   color: #0a0a0c;
 }
 .cal-ahora {
@@ -1933,7 +1933,7 @@
   transition: transform 160ms var(--ease, ease);
 }
 .interruptor input:checked {
-  background: var(--neon, #5b47ff);
+  background: var(--neon);
 }
 .interruptor input:checked::after {
   transform: translateX(14px);
@@ -2133,5 +2133,607 @@
   .tabla-espera th:nth-child(3),
   .tabla-espera td:nth-child(3) {
     display: none;
+  }
+}
+
+/* ——— Agenda en el celular: días, barberos y la lista del día ——— */
+.am {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 40px;
+}
+.am-cabeza {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.am-cabeza h1 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.am-cabeza p {
+  margin: 4px 0 0;
+  color: var(--tenue);
+  font-size: 15px;
+}
+.am-sucursales {
+  display: flex;
+  padding: 3px;
+  border-radius: 12px;
+  background: var(--suave);
+}
+.am-sucursales button {
+  flex: 1;
+  min-height: 40px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tenue);
+  cursor: pointer;
+}
+.am-sucursales button.activa {
+  background: var(--tarjeta);
+  color: var(--texto);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+}
+.am-dias,
+.am-barberos {
+  display: flex;
+  gap: 6px;
+  margin: 0 -18px;
+  padding: 2px 18px 4px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.am-dias::-webkit-scrollbar,
+.am-barberos::-webkit-scrollbar {
+  display: none;
+}
+.am-dias button {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 52px;
+  padding: 8px 0 6px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--tarjeta);
+  font: inherit;
+  color: var(--texto);
+  cursor: pointer;
+  scroll-snap-align: center;
+  touch-action: manipulation;
+}
+.am-dias button span {
+  font-size: 12px;
+  color: var(--tenue);
+}
+.am-dias button strong {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.am-dias button.pasado {
+  opacity: 0.55;
+}
+.am-dias button.es-hoy span {
+  color: var(--neon);
+  font-weight: 700;
+}
+.am-dias button.activa {
+  background: var(--marco);
+  color: #fff;
+  opacity: 1;
+}
+.am-dias button.activa span {
+  color: var(--marca-tenue);
+}
+.am-carga {
+  display: flex;
+  gap: 2px;
+  height: 5px;
+}
+.am-carga b {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--neon);
+}
+.am-barberos button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 14px 0 6px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--tarjeta);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--texto);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.am-barberos button small {
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--suave);
+  font-size: 12px;
+  color: var(--tenue);
+  text-align: center;
+}
+.am-barberos button.activa {
+  background: var(--neon);
+  color: #fff;
+}
+.am-barberos button.activa small {
+  background: rgb(255 255 255 / 0.2);
+  color: #fff;
+}
+.am-todos {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--marco);
+  color: #fff;
+  font-size: 13px;
+}
+.am-resumen {
+  display: flex;
+  flex-direction: column;
+  margin: 4px 0 0;
+}
+.am-resumen strong {
+  font-size: 18px;
+}
+.am-resumen span {
+  color: var(--tenue);
+  font-size: 15px;
+}
+.am-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.am-turno,
+.am-libre {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  align-items: start;
+  gap: 12px;
+  padding: 14px 14px 14px 12px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--tarjeta);
+  font: inherit;
+  color: var(--texto);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 4px 0 0 var(--neon);
+  touch-action: manipulation;
+  transition: transform 120ms var(--ease);
+}
+.am-turno:active,
+.am-libre:active {
+  transform: scale(0.98);
+}
+.am-hora {
+  display: flex;
+  flex-direction: column;
+  font-size: 17px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.am-hora small {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--tenue);
+}
+.am-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.am-cuerpo strong {
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.am-cuerpo > span {
+  font-size: 14px;
+  color: var(--tenue);
+}
+.am-quien {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  color: var(--texto) !important;
+  font-weight: 600;
+}
+.am-quien .persona {
+  width: 22px;
+  height: 22px;
+  font-size: 10px;
+}
+.am-lado {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+.am-lado b {
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+.am-estado {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--neon-suave);
+  color: var(--neon-tinta);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.am-atendido {
+  box-shadow: inset 4px 0 0 var(--ok);
+}
+.am-atendido .am-estado {
+  background: #e3f5ea;
+  color: var(--ok);
+}
+.am-ausente {
+  box-shadow: inset 4px 0 0 var(--mal);
+}
+.am-ausente .am-estado {
+  background: #fdecea;
+  color: var(--mal);
+}
+.am-en-curso {
+  background: var(--marco);
+  color: #fff;
+}
+.am-en-curso .am-hora small,
+.am-en-curso .am-cuerpo > span {
+  color: #b9b6cc;
+}
+.am-en-curso .am-quien {
+  color: #fff !important;
+}
+.am-en-curso .am-estado {
+  background: var(--neon);
+  color: #fff;
+}
+.am-libre {
+  grid-template-columns: 52px 1fr auto;
+  align-items: center;
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--borde);
+  border: 0;
+  color: var(--tenue);
+  font-weight: 600;
+}
+.am-libre .am-hora {
+  color: var(--tenue);
+}
+.am-libre > span:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  color: var(--texto);
+}
+.am-libre small {
+  font-weight: 500;
+  color: var(--tenue);
+}
+.am-libre svg {
+  color: var(--neon);
+}
+.am-ahora {
+  position: relative;
+  height: 2px;
+  margin: 6px 0;
+  background: var(--neon);
+}
+.am-ahora span {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--neon);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+.am-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding: 24px 18px;
+  border-radius: 16px;
+  background: var(--tarjeta);
+  color: var(--tenue);
+  font-size: 15px;
+}
+.am-vacio p {
+  margin: 0;
+}
+
+/* ——— Tablas en el celular: cada fila pasa a ser una tarjeta ——— */
+@media (max-width: 700px) {
+  .tabla-clientes,
+  .tabla-servicios,
+  .tabla-equipo,
+  .tabla-caja {
+    display: block;
+  }
+  .tabla-clientes thead,
+  .tabla-servicios thead,
+  .tabla-equipo thead,
+  .tabla-caja thead {
+    display: none;
+  }
+  .tabla-clientes tbody,
+  .tabla-servicios tbody,
+  .tabla-equipo tbody,
+  .tabla-caja tbody,
+  .tabla-caja tfoot {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tabla-clientes tr,
+  .tabla-servicios tr,
+  .tabla-equipo tr,
+  .tabla-caja tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    padding: 14px;
+    border-radius: 14px;
+    background: var(--tarjeta);
+  }
+  .tabla-clientes td,
+  .tabla-servicios td,
+  .tabla-equipo td,
+  .tabla-caja td {
+    display: block;
+    padding: 0 !important;
+    border: 0 !important;
+    text-align: left;
+    white-space: normal;
+  }
+  /* Clientes: nombre y gastado arriba, visitas y última visita abajo */
+  .tabla-clientes td:nth-child(1) {
+    flex: 1 1 60%;
+    min-width: 0;
+  }
+  .tabla-clientes td:nth-child(5) {
+    margin-left: auto;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .tabla-clientes td:nth-child(3) {
+    margin-right: -6px;
+  }
+  .tabla-clientes td:nth-child(3),
+  .tabla-clientes td:nth-child(4) {
+    order: 2;
+    font-size: 13px;
+    color: var(--tenue);
+  }
+  .tabla-clientes .clientes-visitas::after {
+    content: ' visitas,';
+  }
+  .tabla-clientes td:nth-child(4)::before {
+    content: 'última ';
+  }
+  /* Servicios: nombre y precio arriba, datos chicos abajo */
+  .tabla-servicios td:nth-child(1) {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+  .tabla-servicios td:nth-child(4) {
+    order: 1;
+    margin-right: 4px;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .tabla-servicios td:nth-child(2),
+  .tabla-servicios td:nth-child(3),
+  .tabla-servicios td:nth-child(5) {
+    order: 2;
+    padding: 2px 8px !important;
+    border-radius: 999px;
+    background: var(--suave);
+    font-size: 13px;
+    color: var(--tenue);
+  }
+  .tabla-servicios td:nth-child(6),
+  .tabla-servicios td:nth-child(7) {
+    order: 3;
+    padding-top: 6px !important;
+  }
+  .tabla-servicios td:nth-child(6) {
+    flex: 1 1 50%;
+  }
+  /* Equipo: barbero y lo que cobra arriba; sucursal, turnos, facturado y comisión abajo */
+  .tabla-equipo td:nth-child(1) {
+    flex: 1 1 55%;
+  }
+  .tabla-equipo td:nth-child(6) {
+    margin-left: auto;
+    font-size: 17px;
+  }
+  .tabla-equipo td:nth-child(6)::before {
+    content: 'A pagar ';
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--tenue);
+    text-align: right;
+  }
+  .tabla-equipo td:nth-child(2),
+  .tabla-equipo td:nth-child(3),
+  .tabla-equipo td:nth-child(4) {
+    order: 2;
+    font-size: 13px;
+    color: var(--tenue);
+  }
+  .tabla-equipo .equipo-turnos::after {
+    content: ' turnos';
+  }
+  .tabla-equipo td:nth-child(5) {
+    order: 3;
+    margin-left: auto;
+  }
+  /* Caja: hora, concepto y monto; el medio de pago abajo */
+  .tabla-caja tr {
+    display: grid;
+    grid-template-columns: 46px 1fr auto;
+    gap: 2px 10px;
+  }
+  .tabla-caja td:nth-child(1) {
+    grid-row: 1 / 3;
+    font-weight: 700;
+  }
+  .tabla-caja td:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 13px;
+    color: var(--tenue);
+  }
+  .tabla-caja td:nth-child(4) {
+    grid-column: 3;
+    grid-row: 1;
+    font-weight: 700;
+    text-align: right;
+  }
+  .tabla-caja tfoot tr {
+    background: var(--marco);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .tabla-clientes small,
+  .tabla-servicios small,
+  .tabla-equipo small {
+    display: block;
+  }
+}
+
+/* ——— Celular: que se sienta una app y no una web achicada ——— */
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+@media (pointer: coarse) {
+  /* Con menos de 16px el iPhone hace zoom al tocar el campo */
+  .admin input,
+  .admin select,
+  .admin textarea,
+  .dialogo input,
+  .dialogo select,
+  .dialogo textarea {
+    font-size: 16px;
+  }
+}
+@media (max-width: 600px) {
+  .dialogo {
+    width: 100vw !important;
+    max-width: 100vw;
+    margin: auto 0 0;
+    border-radius: 20px 20px 0 0;
+    max-height: 92dvh;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .dialogo[open] {
+    animation: hoja-sube 260ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+}
+@keyframes hoja-sube {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dialogo[open] {
+    animation: none;
+  }
+}
+
+/* ——— Celular: barra de arriba corta, botones del tamaño de un dedo y tablas como tarjetas ——— */
+@media (max-width: 600px) {
+  .superior-texto {
+    display: none;
+  }
+  .superior .boton {
+    margin-left: auto;
+  }
+}
+@media (pointer: coarse) {
+  .boton,
+  .boton-chico,
+  .select-chico,
+  .segmentos button,
+  .pestanas-admin button {
+    min-height: 40px;
+  }
+}
+@media (max-width: 700px) {
+  .tabla-tarjetas,
+  .tabla-tarjetas tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tabla-tarjetas thead {
+    display: none;
+  }
+  .tabla-tarjetas tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    padding: 14px;
+    border-radius: 14px;
+    background: var(--sheet, #fff);
+    border: 1px solid var(--edge, #e4e6eb);
+  }
+  .tabla-tarjetas td {
+    display: block;
+    padding: 0 !important;
+    border: 0 !important;
+    text-align: left;
+    white-space: normal;
+  }
+  .tabla-tarjetas td small {
+    display: block;
   }
 }

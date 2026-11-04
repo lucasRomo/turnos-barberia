@@ -13,7 +13,7 @@ export default function Caja() {
   const ix = useIndices(e)
   const { alcance, verTurno } = useAdmin()
   const hoy = hoyClave()
-  const [suc, setSuc] = useState<SucursalId>(alcance === 'viejo' ? 'viejo' : 'nuevo')
+  const [suc, setSuc] = useState<SucursalId>(alcance === 'todas' ? negocio.sucursales[0].id : alcance)
   // Arranca en el último día con movimientos (si hoy todavía no abrió, muestra ayer)
   const [dia, setDia] = useState(() => {
     for (let i = 0; i < 7; i++) {
@@ -98,7 +98,7 @@ export default function Caja() {
       {lineas.length === 0 ? (
         <p className="vacio">Todavía no hay movimientos este día.</p>
       ) : (
-        <table className="tabla">
+        <table className="tabla tabla-caja">
           <thead>
             <tr><th className="num">Hora</th><th>Concepto</th><th>Medio de pago</th><th className="num">Monto</th></tr>
           </thead>
